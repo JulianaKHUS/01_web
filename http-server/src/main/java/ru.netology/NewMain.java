@@ -22,7 +22,6 @@ public class NewMain {
         });
 
 
-
         server.addHandler("GET", "/hello", (request, responseStream) -> {
             String responseBody = "Hello, World!";
             responseStream.write(("HTTP/1.1 200 OK\r\n" +
