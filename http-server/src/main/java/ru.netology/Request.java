@@ -17,54 +17,63 @@ public class Request {
     private final String headers;
     private final String body;
     private final List<NameValuePair> queryParams;
-public Request(String requestLine, String headers, String body, List<NameValuePair> queryParams) {
-    String[] parts = requestLine.split(" ");
-    this.method = parts[0];
-    this.path = parts[1];
-    this.headers = headers;
-    this.body = body;
-    this.queryParams = queryParams;
-}
 
-    public String getMethod() {return method;}
+    public Request(String requestLine, String headers, String body, List<NameValuePair> queryParams) {
+        String[] parts = requestLine.split(" ");
+        this.method = parts[0];
+        this.path = parts[1];
+        this.headers = headers;
+        this.body = body;
+        this.queryParams = queryParams;
+    }
 
-    public String getPath() {return path;}
+    public String getMethod() {
+        return method;
+    }
 
-    public String getHeaders() {return headers;}
+    public String getPath() {
+        return path;
+    }
 
-    public String getBody() {return body;}
+    public String getHeaders() {
+        return headers;
+    }
 
-public List<NameValuePair> getQueryParam(String name) {
-return queryParams.stream()
-        .filter(p -> p.getName().equals(name))
-        .collect(Collectors.toList());
-}
+    public String getBody() {
+        return body;
+    }
+
+    public List<NameValuePair> getQueryParam(String name) {
+        return queryParams.stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
+    }
+
     public List<NameValuePair> getQueryParam() {
-return queryParams;
+        return queryParams;
     }
+
     public static Request parse(BufferedReader in) throws IOException {
-    String requestLine = in.readLine();
+        String requestLine = in.readLine();
 
-    if (requestLine == null) {
-        throw new IOException("Invalid request line");
-    }
+        if (requestLine == null) {
+            throw new IOException("Invalid request line");
+        }
 
 
-    var path = requestLine.split("");
+        var path = requestLine.split("");
 
-    if (parts.lenght !=3) {
-        throw new IOException("Invalid request line");
+        if (parts.lenght != 3) {
+            throw new IOException("Invalid request line");
 
-    }
+        }
 
-    var path = parts[1];
+        var path = parts[1];
         var params = URLEncodedUtils.parse(path, StandardCharsets.UTF_8);
 
         StringBuilder headers = new StringBuilder();
         String line;
 
         while (!(line = in.readLine()).isEmpty()) {
-           headers.append(line).append("\r\n");
+            headers.append(line).append("\r\n");
         }
         String body = in.toString();
         return new Request(requestLine, headers.toString(), body, params);
